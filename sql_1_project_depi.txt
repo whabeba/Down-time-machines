@@ -1,0 +1,66 @@
+create database Downtime_Machine
+
+create table Machine(
+Machine_Id varchar(50) primary key,
+Assemply_line_no varchar(50) not null
+);
+
+create table Downtime(
+Downtime_Id int primary key ,
+Downtime_Date datetime,
+Failure_Reason varchar(300),
+Machine_Id varchar(50),
+ FOREIGN KEY (Machine_Id) REFERENCES Machine(Machine_Id)
+);
+
+create table Vibration_Measurement (
+    Vibration_Id int primary key,
+    Machine_Id varchar(50),
+    Spindle_Vibration float,
+    Tool_Vibration float,
+    Measurement_Date datetime,
+    foreign key (Machine_Id) references Machine(Machine_Id)
+);
+
+create table Downtime_Vibration(
+   Downtime_Id int,
+   Vibration_Id int,
+   primary key( Downtime_Id, Vibration_Id),
+   foreign key (Downtime_Id) references Downtime(Downtime_Id),
+   foreign key (Vibration_Id) references Vibration_Measurement(Vibration_Id)
+   );
+   create table Performance(
+  Performance_Id int primary key,
+  Machine_Id varchar(50),
+  Spindle_Speed int,
+  Voltage float,
+  Torque float,
+  Cutting_Force float,
+  Measurement_Date datetime,
+  foreign key (Machine_ID) references Machine(Machine_ID)
+);
+   create table  Pressure_Measurement(
+    Pressure_Id int primary key ,
+    Machine_Id varchar(50),
+    Performance_Id int,
+    Hydraulic_Pressure float,
+    Coolant_Pressure float,
+    Air_System_Pressure float,
+    Measurement_Date datetime,
+    foreign key (Machine_Id) references Machine(Machine_Id),
+	foreign key (Performance_Id) references Performance(Performance_Id)
+
+);
+
+
+create table Temperature_Measurement (
+    Temperature_Id int primary key ,
+    Machine_ID varchar(50),
+    Coolant_Temp float,
+    Hydraulic_Oil_Temp float,
+    Spindle_Bearing_Temp float,
+    Measurement_Date datetime,
+   foreign key (Machine_Id) references Machine(Machine_ID)
+);
+
+   
